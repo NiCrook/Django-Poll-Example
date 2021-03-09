@@ -1,9 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from .models import Question
+
 
 def index(request):
-    return HttpResponse("Hello! Welcome to the polls!")
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    output = ', '.join([q.question_text for q in latest_question_list])
+    return HttpResponse(output)
 
 
 def detail(request, question_id):
